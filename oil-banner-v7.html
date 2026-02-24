@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Oil Banner 1704x1032 - v7</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            /* Absolute white */
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            display: flex;
+            position: relative;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/doplnkova-tartuf1.jpg');
+            background-size: cover;
+            background-position: center center;
+            /* No filters, no overlays, pure image */
+            z-index: 0;
+        }
+
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5% 0 10%;
+            animation: fadeInUp 1s ease-out;
+            box-sizing: border-box;
+            background: transparent;
+            /* Ensure no tint here */
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(32px, 7vw, 110px);
+            /* Restored original large size but fully fluid */
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
+            color: #1a1a1a;
+            max-width: 900px;
+        }
+
+        .cta-v5 {
+            display: inline-block;
+            width: fit-content;
+            margin-top: 25px;
+            padding: clamp(12px, 1.5vw, 22px) clamp(25px, 3vw, 55px);
+            background-color: #e5d8cf;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: clamp(14px, 1.5vw, 24px);
+            text-transform: none;
+            border-radius: 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+        }
+
+        .cta-v5 span {
+            margin-left: 15px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-v5:hover {
+            transform: translateY(-5px);
+            background-color: #ffffff;
+        }
+
+        .cta-v5:hover span {
+            transform: translateX(5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .content {
+                padding-left: 8%;
+            }
+
+            h1 {
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 0 40px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 0 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image"></div>
+
+    <div class="content">
+        <h1>Ten pravý<br>lanýžový olej</h1>
+        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_top">Nakupovat <span>→</span></a>
+    </div>
+</body>
+
+
+</html>
