@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hero Banner 1704x1032 - v12</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            position: relative;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/html5-banner-tartuf.jpg');
+            background-size: cover;
+            background-position: right center;
+            z-index: 0;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+            z-index: 1;
+        }
+
+        /* Floating Truffles */
+        .truffle {
+            position: absolute;
+            background-image: url('images/lanyz.ong.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 1;
+            /* Behind content, over/near overlay level */
+            opacity: 0.85;
+            /* Increased visibility */
+            pointer-events: none;
+        }
+
+        .truffle-1 {
+            width: clamp(100px, 15vw, 250px);
+            height: clamp(100px, 15vw, 250px);
+            top: 5%;
+            left: 35%;
+            /* Repositioned from right to center-left top */
+            animation: pulse-float 8s infinite ease-in-out;
+            filter: blur(1px) brightness(1.1);
+            /* Reduced blur, higher brightness */
+        }
+
+        .truffle-2 {
+            width: clamp(80px, 10vw, 180px);
+            height: clamp(80px, 10vw, 180px);
+            bottom: 10%;
+            left: 45%;
+            /* Repositioned from right to center-left bottom */
+            animation: pulse-float 10s infinite ease-in-out reverse;
+            filter: blur(0px) brightness(1.2);
+            /* No blur, higher brightness */
+        }
+
+        .truffle-3 {
+            width: clamp(60px, 8vw, 120px);
+            height: clamp(60px, 8vw, 120px);
+            bottom: 5%;
+            left: 5%;
+            animation: pulse-float 7s infinite ease-in-out 1s;
+            filter: blur(1px) brightness(1);
+        }
+
+        @keyframes pulse-float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05) rotate(5deg);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 3;
+            /* Above truffles */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5% 0 10%;
+            animation: fadeInUp 1s ease-out;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(40px, 6vw, 100px);
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
+            color: #ffffff;
+            max-width: 800px;
+        }
+
+
+        .tagline-v5 {
+            font-size: clamp(16px, 2vw, 32px);
+            font-weight: 300;
+            /* Thinner as requested */
+            margin: clamp(15px, 2vw, 30px) 0 clamp(20px, 3vw, 50px) 0;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .cta-v5 {
+            display: inline-block;
+            width: fit-content;
+            padding: clamp(12px, 1.5vw, 22px) clamp(25px, 3vw, 55px);
+            background-color: #e5d8cf;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            /* Thinner as requested (down from 700) */
+            font-size: clamp(14px, 1.5vw, 24px);
+            text-transform: none;
+            /* Removed uppercase */
+            border-radius: 0;
+            /* Square as requested */
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+        }
+
+        .cta-v5 span {
+            margin-left: 15px;
+            /* Spacing for the arrow */
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-v5:hover {
+            transform: translateY(-5px);
+            background-color: #ffffff;
+        }
+
+        .cta-v5:hover span {
+            transform: translateX(5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .content {
+                padding-left: 8%;
+            }
+
+            h1 {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bg-overlay {
+                background: rgba(0, 0, 0, 0.5);
+                /* Simpler overlay for mobile */
+            }
+
+            .content {
+                padding: 0 40px;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .tagline-v5 {
+                font-size: 18px;
+                margin: 20px 0 30px 0;
+            }
+
+            .truffle-1 {
+                left: 50%;
+            }
+
+            .truffle-2 {
+                left: 60%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .tagline-v5 {
+                font-size: 16px;
+            }
+
+            .content {
+                padding: 0 25px;
+            }
+
+            .truffle-1 {
+                width: 120px;
+                height: 120px;
+                top: 10%;
+            }
+
+            .truffle-2 {
+                width: 90px;
+                height: 90px;
+                bottom: 20%;
+            }
+
+            .truffle-3 {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Decorative Truffles -->
+    <div class="truffle truffle-1"></div>
+    <div class="truffle truffle-2"></div>
+    <div class="truffle truffle-3"></div>
+
+    <div class="content">
+
+        <h1>Chuť, kterou<br>si zamilují<br>i šéfkuchaři</h1>
+        <div class="tagline-v5">Ochutnejte pravé lanýžové produkty</div>
+        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_top">Nakupovat <span>→</span></a>
+    </div>
+</body>
+
+
+
+</html>
