@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vertical Banner 525x768 - v3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            position: relative;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/banner-navysku-olej.jpg');
+            background-size: cover;
+            background-position: center bottom;
+            /* Shows the product at the bottom better */
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Headline in the upper half */
+            padding: 15% 10% 0 10%;
+            animation: fadeInUp 1s ease-out;
+            box-sizing: border-box;
+            text-align: center;
+            /* Centered for vertical format */
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(40px, 12vw, 84px);
+            /* Increased size significantly */
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
+            color: #ffffff;
+            max-width: 95%;
+            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .cta {
+            display: inline-block;
+            width: fit-content;
+            margin-top: 50px;
+            /* Space added since tagline is gone */
+            padding: 18px 45px;
+            background-color: #e5d8cf;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: clamp(14px, 3vw, 20px);
+            text-transform: none;
+            border-radius: 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+        }
+
+        .cta span {
+            margin-left: 12px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta:hover {
+            transform: translateY(-5px);
+            background-color: #ffffff;
+        }
+
+        .cta:hover span {
+            transform: translateX(5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-height: 600px) {
+            .content {
+                padding-top: 10%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image"></div>
+
+    <div class="content">
+        <h1>Ten pravý<br>lanýžový olej</h1>
+        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta" target="_blank">Nakupovat <span>→</span></a>
+    </div>
+</body>
+
+
+</html>
