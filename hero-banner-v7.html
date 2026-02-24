@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hero Banner 1704x1032</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            position: relative;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/html5-banner-tartuf.jpg');
+            background-size: cover;
+            background-position: right center;
+            z-index: 0;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5% 0 10%;
+            animation: fadeInUp 1s ease-out;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(40px, 6vw, 100px);
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
+            color: #ffffff;
+            max-width: 800px;
+        }
+
+
+        .tagline-v5 {
+            font-size: clamp(16px, 2vw, 32px);
+            font-weight: 500;
+            margin: clamp(15px, 2vw, 30px) 0 clamp(20px, 3vw, 50px) 0;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .cta-v5 {
+            display: inline-block;
+            width: fit-content;
+            padding: clamp(12px, 1.5vw, 22px) clamp(25px, 3vw, 45px);
+            background-color: #e5d8cf;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: clamp(14px, 1.5vw, 24px);
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cta-v5:hover {
+            transform: translateY(-5px);
+            background-color: #ffffff;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .content {
+                padding-left: 8%;
+            }
+
+            h1 {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bg-overlay {
+                background: rgba(0, 0, 0, 0.5);
+                /* Simpler overlay for mobile */
+            }
+
+            .content {
+                padding: 0 40px;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .tagline-v5 {
+                font-size: 18px;
+                margin: 20px 0 30px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .tagline-v5 {
+                font-size: 16px;
+            }
+
+            .content {
+                padding: 0 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="content">
+        <h1>Chuť, kterou<br>si zamilují<br>i šéfkuchaři</h1>
+        <div class="tagline-v5">Ochutnejte pravé lanýžové produkty</div>
+        <a href="#" class="cta-v5">Nakupovat ▸</a>
+    </div>
+</body>
+
+
+</html>
