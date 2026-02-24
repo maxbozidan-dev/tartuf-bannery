@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Vertical Banner 525x768 - v3</title>
+    <title>Oil Banner 1704x1032 - v1</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -30,11 +30,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('images/banner-navysku-olej.jpg');
+            background-image: url('images/doplnkova-tartuf1.jpg');
             background-size: cover;
-            background-position: center bottom;
-            /* Shows the product at the bottom better */
+            background-position: center center;
             z-index: 0;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
+            z-index: 1;
         }
 
         .content {
@@ -44,64 +53,86 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            /* Headline in the upper half */
-            padding: 15% 10% 0 10%;
+            justify-content: center;
+            padding: 0 5% 0 10%;
             animation: fadeInUp 1s ease-out;
             box-sizing: border-box;
-            text-align: center;
-            /* Centered for vertical format */
-            align-items: center;
         }
 
         h1 {
             font-family: 'DM Serif Display', serif;
-            font-size: clamp(40px, 12vw, 84px);
-            /* Increased size significantly */
+            font-size: clamp(40px, 7vw, 110px);
             margin: 0;
             line-height: 1.1;
             font-weight: 400;
             color: #ffffff;
-            max-width: 95%;
-            text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+            max-width: 900px;
         }
 
-        .cta {
+        .cta-v5 {
             display: inline-block;
             width: fit-content;
             margin-top: 50px;
-            /* Space added since tagline is gone */
-            padding: 18px 45px;
+            padding: clamp(12px, 1.5vw, 22px) clamp(25px, 3vw, 55px);
             background-color: #e5d8cf;
             color: #1a1a1a;
             text-decoration: none;
             font-weight: 500;
-            font-size: clamp(14px, 3vw, 20px);
+            font-size: clamp(14px, 1.5vw, 24px);
             text-transform: none;
             border-radius: 0;
             transition: transform 0.3s ease, background-color 0.3s ease;
             position: relative;
         }
 
-        .cta span {
-            margin-left: 12px;
+        .cta-v5 span {
+            margin-left: 15px;
             display: inline-block;
             transition: transform 0.3s ease;
         }
 
-        .cta:hover {
+        .cta-v5:hover {
             transform: translateY(-5px);
             background-color: #ffffff;
         }
 
-        .cta:hover span {
+        .cta-v5:hover span {
             transform: translateX(5px);
         }
 
         /* Responsive Adjustments */
-        @media (max-height: 600px) {
+        @media (max-width: 1024px) {
             .content {
-                padding-top: 10%;
+                padding-left: 8%;
+            }
+
+            h1 {
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bg-overlay {
+                background: rgba(0, 0, 0, 0.4);
+            }
+
+            .content {
+                padding: 0 40px;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 56px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 42px;
+            }
+
+            .content {
+                padding: 0 25px;
             }
         }
     </style>
@@ -109,12 +140,12 @@
 
 <body>
     <div class="background-image"></div>
+    <div class="bg-overlay"></div>
 
     <div class="content">
         <h1>Ten pravý<br>lanýžový olej</h1>
-        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta" target="_blank">Nakupovat <span>→</span></a>
+        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_blank">Nakupovat <span>→</span></a>
     </div>
 </body>
-
 
 </html>
