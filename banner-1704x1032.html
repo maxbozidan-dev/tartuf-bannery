@@ -41,129 +41,45 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%);
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.2) 100%);
             z-index: 1;
         }
 
         .content {
             position: relative;
             z-index: 2;
-            width: 60%;
+            width: 70%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            /* Vertically centered */
             padding: 0 120px;
             animation: fadeInUp 1s ease-out;
         }
 
-        .tagline {
-            color: #38bdf8;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            margin-bottom: 24px;
-            font-size: 20px;
-        }
-
         h1 {
             font-family: 'DM Serif Display', serif;
-            font-size: 85px;
-            /* Sized down from 110px */
+            font-size: 95px;
+            /* Slightly larger since it's alone */
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.15;
             font-weight: 400;
             color: #ffffff;
-            /* Explicitly white */
-            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
+            max-width: 900px;
         }
 
-        p {
-            font-size: 32px;
-            margin: 40px 0 60px 0;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 750px;
-            line-height: 1.4;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 24px;
-        }
-
-        .cta-primary {
-            background: #ffffff;
-            color: #0f172a;
-            padding: 24px 60px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 28px;
-            text-decoration: none;
-            transition: transform 0.3s, background 0.3s;
-            animation: pulse 2.5s infinite;
-        }
-
-        .cta-primary:hover {
-            background: #38bdf8;
-            transform: scale(1.02);
-        }
-
-        .image-area {
-            width: 45%;
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: slideInRight 1.2s ease-out 0.2s both;
-        }
-
-        .product-large {
-            width: 90%;
-            height: auto;
-            filter: drop-shadow(0 50px 100px rgba(0, 0, 0, 0.6));
-        }
-
-        /* Abstract shapes */
-        .shape {
-            position: absolute;
-            z-index: 1;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-        }
-
-        .shape-1 {
-            width: 800px;
-            height: 800px;
-            background: #38bdf8;
-            top: -200px;
-            right: -200px;
-        }
+        /* Abstract shapes removed as per simplification */
     </style>
 </head>
 
 <body>
     <div class="background-image"></div>
     <div class="bg-overlay"></div>
-    <div class="shape shape-1"></div>
 
     <div class="content">
-        <div class="tagline">Prémiová kvalita</div>
         <h1>Chuť, kterou si zamilují i šéfkuchaři</h1>
-        <p>Vylaďte své kulinářské umění k dokonalosti s produkty, které používají ti nejlepší v oboru.</p>
-        <div class="cta-group">
-            <a href="#" class="cta-primary">Zjistit více</a>
-        </div>
-    </div>
-
-    <div class="image-area">
-        <!-- Nahraďte tímto: <img src="images/hero-product.png" class="product-large"> -->
-        <svg viewBox="0 0 500 500" class="product-large">
-            <rect x="50" y="50" width="400" height="400" rx="40" fill="white" fill-opacity="0.05" />
-            <circle cx="250" cy="250" r="150" fill="#38bdf8" fill-opacity="0.2" />
-            <text x="250" y="270" font-family="'DM Serif Display', serif" font-size="40" text-anchor="middle"
-                fill="white">VZOR PRODUKTU</text>
-        </svg>
     </div>
 </body>
 
