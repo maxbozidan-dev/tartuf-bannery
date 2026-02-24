@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Oil Banner 1704x1032 - v8</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            position: relative;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/doplnkova-tartuf1.jpg');
+            background-size: cover;
+            background-position: center center;
+            z-index: 0;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Subtle gradient from left (darker) to right (transparent) */
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0) 60%);
+            z-index: 1;
+        }
+
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5% 0 10%;
+            animation: fadeInUp 1s ease-out;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(32px, 7vw, 110px);
+            /* Restored original large size but fully fluid */
+            margin: 0;
+            line-height: 1.1;
+            font-weight: 400;
+            color: #ffffff;
+            /* Restored to white */
+            max-width: 900px;
+        }
+
+        .cta-v5 {
+            display: inline-block;
+            width: fit-content;
+            margin-top: 25px;
+            padding: clamp(12px, 1.5vw, 22px) clamp(25px, 3vw, 55px);
+            background-color: #e5d8cf;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: clamp(14px, 1.5vw, 24px);
+            text-transform: none;
+            border-radius: 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+        }
+
+        .cta-v5 span {
+            margin-left: 15px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-v5:hover {
+            transform: translateY(-5px);
+            background-color: #ffffff;
+        }
+
+        .cta-v5:hover span {
+            transform: translateX(5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .content {
+                padding-left: 8%;
+            }
+
+            h1 {
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bg-overlay {
+                /* On mobile increase darkening a bit if needed, but keeping it consistent for now */
+                background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+            }
+
+            .content {
+                padding: 0 40px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 0 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-image"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="content">
+        <h1>Ten pravý<br>lanýžový olej</h1>
+        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_top">Nakupovat <span>→</span></a>
+    </div>
+</body>
+
+
+</html>
