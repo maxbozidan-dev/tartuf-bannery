@@ -23,20 +23,32 @@
             position: relative;
         }
 
-        .bg-gradient {
+        .background-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 75% 30%, #1e293b 0%, #0f172a 100%);
+            background-image: url('images/html5-banner-tartuf.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%);
             z-index: 1;
         }
 
         .content {
             position: relative;
             z-index: 2;
-            width: 55%;
+            width: 60%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -46,28 +58,30 @@
 
         .tagline {
             color: #38bdf8;
-            font-weight: 700;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.3em;
             margin-bottom: 24px;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         h1 {
             font-family: 'DM Serif Display', serif;
-            font-size: 110px;
+            font-size: 85px;
+            /* Sized down from 110px */
             margin: 0;
-            line-height: 1.05;
+            line-height: 1.1;
             font-weight: 400;
-            /* DM Serif Display looks best at 400 */
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            /* Explicitly white */
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         p {
             font-size: 32px;
             margin: 40px 0 60px 0;
-            color: #94a3b8;
-            max-width: 700px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 750px;
             line-height: 1.4;
         }
 
@@ -129,7 +143,8 @@
 </head>
 
 <body>
-    <div class="bg-gradient"></div>
+    <div class="background-image"></div>
+    <div class="bg-overlay"></div>
     <div class="shape shape-1"></div>
 
     <div class="content">
