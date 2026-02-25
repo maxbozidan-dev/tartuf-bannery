@@ -92,23 +92,21 @@ h1 {
 
 .dashboard-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 20px;
     align-items: start;
     margin-bottom: 20px;
 }
 
-.banner-main {
+.dashboard-layout.single-main {
+    grid-template-columns: 1fr;
+}
+
+.dashboard-layout.side-by-side .banner-card {
     margin-bottom: 0;
 }
 
-.banner-side-stack {
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 16px;
-}
-
-.banner-side-stack .banner-card {
+.banner-main {
     margin-bottom: 0;
 }
 
@@ -124,16 +122,13 @@ h1 {
         text-align: center;
     }
 
-    .dashboard-layout {
+    .dashboard-layout,
+    .dashboard-layout.side-by-side,
+    .dashboard-layout.single-main {
         grid-template-columns: 1fr;
     }
 
-    .banner-side-stack {
-        grid-template-rows: auto;
-        gap: 20px;
-    }
-
-    .banner-side-stack .iframe-side {
+    .iframe-side {
         aspect-ratio: 1704 / 1032 !important;
     }
 }
