@@ -112,6 +112,16 @@ h1 {
 
 .dashboard-layout.side-by-side .banner-card {
     margin-bottom: 0;
+    padding: 6px;
+}
+
+.dashboard-layout.side-by-side .banner-head {
+    padding: 8px 10px 6px;
+    margin-bottom: 6px;
+}
+
+.dashboard-layout.side-by-side .copy-embed-btn {
+    padding: 7px 10px;
 }
 
 .banner-main {
