@@ -1,117 +1,102 @@
 <!DOCTYPE html>
 <html lang="cs">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bannery Tartuf - Live</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tartuf Bannery – Editor</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background: radial-gradient(circle at top, #111827, #0b1020 45%, #090d18 100%); color:#e2e8f0; }
+    .editor-wrap { max-width:1380px; margin:0 auto; padding:20px; display:grid; grid-template-columns:370px minmax(0,1fr); gap:20px; align-items:start; }
+    .panel { background:linear-gradient(180deg,#111827,#0f172a); border:1px solid #334155; border-radius:14px; padding:18px; position:sticky; top:12px; box-shadow:0 12px 30px rgba(2,6,23,.35); }
+    .panel h2 { margin:0 0 10px; font-size:21px; }
+    .field { margin-bottom:12px; }
+    .field label { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:#94a3b8; margin-bottom:6px; }
+    .field input, .field textarea, .field select { width:100%; box-sizing:border-box; background:#0b1222; border:1px solid #334155; color:#f8fafc; border-radius:10px; padding:11px 12px; }
+    .field input:focus, .field textarea:focus, .field select:focus { outline:none; border-color:#64748b; box-shadow:0 0 0 2px rgba(148,163,184,.2); }
+    .banner-tabs { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
+    .tab-btn { background:#0b1222; color:#cbd5e1; border:1px solid #334155; border-radius:10px; padding:9px 10px; font-weight:700; }
+    .tab-btn.active { background:linear-gradient(135deg,#facc15,#eab308); color:#111827; border-color:#facc15; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+    button { background:linear-gradient(135deg,#facc15,#eab308); color:#111827; border:none; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    button.secondary { background:#1e293b; color:#e2e8f0; border:1px solid #334155; }
+    button:hover { transform: translateY(-1px); }
+    .preview { background:#0f172a; border:1px solid #334155; border-radius:14px; padding:12px; overflow:hidden; box-shadow:0 12px 30px rgba(2,6,23,.35); }
+    .preview-frame-wrap { width:100%; display:flex; justify-content:center; }
+    iframe { width:100%; max-width:1120px; aspect-ratio:1704/1032; border:none; border-radius:10px; background:#000; display:block; }
+    .small { font-size:12px; color:#94a3b8; }
+    .code-wrap { margin-top: 10px; }
+    .code { margin-top:0; background:#020617; border:1px solid #334155; border-radius:10px; padding:10px; overflow:auto; font-family:ui-monospace, monospace; font-size:12px; min-height:60px; white-space:pre-wrap; word-break:break-word; }
+    @media (max-width: 980px) { 
+      .editor-wrap { grid-template-columns:1fr; }
+      .panel { position:static; }
+      iframe { max-width:100%; }
+    }
+  </style>
 </head>
+<body>
+  <div class="editor-wrap">
+    <aside class="panel">
+      <h2>Editor banneru</h2>
+      <div class="field">
+        <label>Cílový banner</label>
+        <div class="banner-tabs" id="bannerTabs">
+          <button type="button" class="tab-btn active" data-target="hlavni-banner.html">Hlavní</button>
+          <button type="button" class="tab-btn" data-target="doplnkovy-banner-1.html">Doplňkový 1</button>
+          <button type="button" class="tab-btn" data-target="doplnkovy-banner-2.html">Doplňkový 2</button>
+        </div>
+        <input type="hidden" id="targetBanner" value="hlavni-banner.html" />
+      </div>
 
-<body class="dashboard">
-    <header>
-        <h1>Banner Dashboard pro Tartuf</h1>
-        <p>Seznam všech dostupných HTML5 bannerů pro Shoptet (1704×1032).</p>
-    </header>
+      <div class="field">
+        <label>Nadpis</label>
+        <textarea id="title" rows="3">Chuť, kterou<br>si zamilují<br>i šéfkuchaři</textarea>
+        <p class="small">Můžeš použít HTML zalomení řádku: <code>&lt;br&gt;</code></p>
+      </div>
+      <div class="field">
+        <label>Podnadpis</label>
+        <input id="subtitle" value="Ochutnejte pravé lanýžové produkty" />
+      </div>
+      <div class="field">
+        <label>CTA text</label>
+        <input id="ctaText" value="Nakupovat" />
+      </div>
+      <div class="field">
+        <label>CTA odkaz</label>
+        <input id="ctaHref" value="https://www.tartuf.cz/lanyzove-produkty/" />
+      </div>
+      <div class="field">
+        <label>URL obrázku pozadí (doporučeno pro eShop)</label>
+        <input id="bgUrl" placeholder="https://.../obrazek.jpg" />
+      </div>
+      <div class="field">
+        <label>Lokální obrázek (jen pro rychlý náhled)</label>
+        <input id="bgFile" type="file" accept="image/*" />
+      </div>
 
-    <main class="banner-list">
-        <section class="editor-cta-inline">
-            <a class="open-editor-btn" href="banner-editor.html" target="_blank">Otevřít editor</a>
-        </section>
+      <div class="actions">
+        <button id="applyBtn">Použít změny</button>
+        <button id="saveBtn" class="secondary">Uložit do vybraného banneru</button>
+        <button id="copyBtn" class="secondary">Kopírovat URL</button>
+      </div>
+      <p class="small" id="targetHint">Aktuálně upravuješ: Hlavní banner (karusel)</p>
+      <p class="small">Tip: Pro živý eShop link používej URL obrázku. Lokální soubor se použije jen v prohlížeči.</p>
+    </aside>
 
-        <section class="dashboard-layout single-main">
-            <article class="banner-card banner-main">
-                <div class="banner-head">
-                    <h2>Hlavní banner</h2>
-                    <button class="copy-embed-btn" data-src="hlavni-banner.html">Kopírovat kód</button>
-                </div>
-                <div class="iframe-container iframe-main" style="aspect-ratio: 1704/1032;">
-                    <iframe data-banner="hlavni-banner.html" src="hlavni-banner.html" frameborder="0" width="100%" height="auto"></iframe>
-                </div>
-            </article>
-        </section>
+    <section class="preview">
+      <div class="preview-frame-wrap">
+        <iframe id="preview" src="hlavni-banner.html"></iframe>
+      </div>
+      <div class="code-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0 6px;">
+          <p class="small" style="margin:0;">URL / iframe kód pro vložení do eShopu</p>
+          <button id="copyEmbedBtn" class="secondary" type="button">Kopírovat kód</button>
+        </div>
+        <div class="code" id="embedCode"></div>
+      </div>
+    </section>
+  </div>
 
-        <section class="dashboard-layout side-by-side">
-            <article class="banner-card">
-                <div class="banner-head">
-                    <h2>Doplňkový banner č. 1</h2>
-                    <button class="copy-embed-btn" data-src="doplnkovy-banner-1.html">Kopírovat kód</button>
-                </div>
-                <div class="iframe-container iframe-side" style="aspect-ratio: 1704/1032;">
-                    <iframe data-banner="doplnkovy-banner-1.html" src="doplnkovy-banner-1.html" frameborder="0" width="100%" height="auto"></iframe>
-                </div>
-            </article>
-
-            <article class="banner-card">
-                <div class="banner-head">
-                    <h2>Doplňkový banner č. 2</h2>
-                    <button class="copy-embed-btn" data-src="doplnkovy-banner-2.html">Kopírovat kód</button>
-                </div>
-                <div class="iframe-container iframe-side" style="aspect-ratio: 1704/1032;">
-                    <iframe data-banner="doplnkovy-banner-2.html" src="doplnkovy-banner-2.html" frameborder="0" width="100%" height="auto"></iframe>
-                </div>
-            </article>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Tartuf - Animované Bannery</p>
-    </footer>
-
-    <script>
-        (function () {
-            const base = 'https://maxbozidan-dev.github.io/tartuf-bannery/';
-
-            const buildPublishedUrl = (src) => {
-                const url = new URL(`${base}${src}`);
-                const raw = localStorage.getItem(`tartuf-publish-data-${src}`);
-                if (!raw) return url.toString();
-
-                try {
-                    const data = JSON.parse(raw);
-                    if (data.title) url.searchParams.set('title', data.title);
-                    if (data.subtitle) url.searchParams.set('subtitle', data.subtitle);
-                    if (data.ctaText) url.searchParams.set('ctaText', data.ctaText);
-                    if (data.ctaHref) url.searchParams.set('ctaHref', data.ctaHref);
-                    if (data.bgUrl) url.searchParams.set('bg', data.bgUrl);
-                    if (data.rev) url.searchParams.set('rev', data.rev);
-                } catch {}
-
-                return url.toString();
-            };
-
-            const buildCode = (src) =>
-                `<iframe src="${buildPublishedUrl(src)}" width="100%" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"></iframe>`;
-
-            function applyPublishedToDashboard() {
-                document.querySelectorAll('iframe[data-banner]').forEach((iframe) => {
-                    const src = iframe.getAttribute('data-banner');
-                    const nextUrl = buildPublishedUrl(src);
-                    if (iframe.src !== nextUrl) {
-                        iframe.src = nextUrl;
-                    }
-                });
-            }
-
-            applyPublishedToDashboard();
-
-            window.addEventListener('storage', (event) => {
-                if (!event.key || !event.key.startsWith('tartuf-publish-data-')) return;
-                applyPublishedToDashboard();
-            });
-
-            document.querySelectorAll('.copy-embed-btn').forEach((btn) => {
-                const src = btn.getAttribute('data-src');
-                btn.addEventListener('click', async () => {
-                    const code = buildCode(src);
-                    await navigator.clipboard.writeText(code);
-                    const original = btn.textContent;
-                    btn.textContent = 'Zkopírováno ✓';
-                    setTimeout(() => (btn.textContent = original), 1400);
-                });
-            });
-        })();
-    </script>
+  <script src="editor.js"></script>
 </body>
-
 </html>
