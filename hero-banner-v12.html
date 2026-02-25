@@ -274,11 +274,11 @@
             const bgEl = document.querySelector('.background-image');
 
             if (title && titleEl) {
-                titleEl.innerHTML = title
+                const safe = title
                     .replace(/\n/g, '<br>')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/&lt;br&gt;/g, '<br>');
+                    .replace(/<(?!br\s*\/?)[^>]+>/gi, '')
+                    .replace(/javascript:/gi, '');
+                titleEl.innerHTML = safe;
             }
             if (subtitle && subEl) subEl.textContent = subtitle;
             if (ctaText && ctaEl) ctaEl.childNodes[0].nodeValue = `${ctaText} `;
