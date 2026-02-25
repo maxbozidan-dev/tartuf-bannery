@@ -34,11 +34,14 @@ jobs:
           RAND=$(openssl rand -hex 3)
           KEY="${TS}${RAND}"
 
-          case "${{ github.event.inputs.target }}" in
+          TARGET_RAW="${{ github.event.inputs.target }}"
+          TARGET="${TARGET_RAW#==}"
+
+          case "$TARGET" in
             hlavni) PREFIX="hlavni-banner" ;;
             doplnkovy1) PREFIX="doplnkovy-banner-1" ;;
             doplnkovy2) PREFIX="doplnkovy-banner-2" ;;
-            *) echo "Invalid target"; exit 1 ;;
+            *) echo "Invalid target: $TARGET_RAW"; exit 1 ;;
           esac
 
           BASE_FILE="${PREFIX}.html"
