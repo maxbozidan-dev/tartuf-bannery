@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tartuf Banner Editor</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background:#0b1020; color:#e2e8f0; }
+    .editor-wrap { max-width:1300px; margin:0 auto; padding:20px; display:grid; grid-template-columns:380px 1fr; gap:20px; }
+    .panel { background:#111827; border:1px solid #334155; border-radius:12px; padding:16px; }
+    .panel h2 { margin:0 0 10px; font-size:20px; }
+    .field { margin-bottom:12px; }
+    .field label { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; margin-bottom:6px; }
+    .field input, .field textarea, .field select { width:100%; box-sizing:border-box; background:#0f172a; border:1px solid #334155; color:#f8fafc; border-radius:8px; padding:10px; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    button { background:#eab308; color:#111827; border:none; border-radius:8px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    button.secondary { background:#1e293b; color:#e2e8f0; border:1px solid #334155; }
+    .preview { background:#0f172a; border:1px solid #334155; border-radius:12px; padding:12px; }
+    iframe { width:100%; aspect-ratio:1704/1032; border:none; border-radius:8px; background:#000; }
+    .small { font-size:12px; color:#94a3b8; }
+    .code { margin-top:10px; background:#020617; border:1px solid #334155; border-radius:8px; padding:10px; overflow:auto; font-family:ui-monospace, monospace; font-size:12px; }
+    @media (max-width: 980px) { .editor-wrap { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="editor-wrap">
+    <aside class="panel">
+      <h2>Editor banneru (v12)</h2>
+      <div class="field">
+        <label>Nadpis</label>
+        <textarea id="title" rows="3">Chuť, kterou\nsi zamilují\ni šéfkuchaři</textarea>
+      </div>
+      <div class="field">
+        <label>Podnadpis</label>
+        <input id="subtitle" value="Ochutnejte pravé lanýžové produkty" />
+      </div>
+      <div class="field">
+        <label>CTA text</label>
+        <input id="ctaText" value="Nakupovat" />
+      </div>
+      <div class="field">
+        <label>CTA odkaz</label>
+        <input id="ctaHref" value="https://www.tartuf.cz/lanyzove-produkty/" />
+      </div>
+      <div class="field">
+        <label>URL obrázku pozadí (doporučeno pro eShop)</label>
+        <input id="bgUrl" placeholder="https://.../obrazek.jpg" />
+      </div>
+      <div class="field">
+        <label>Lokální obrázek (jen pro rychlý náhled)</label>
+        <input id="bgFile" type="file" accept="image/*" />
+      </div>
+
+      <div class="actions">
+        <button id="applyBtn">Použít změny</button>
+        <button id="saveBtn" class="secondary">Uložit preset</button>
+        <button id="copyBtn" class="secondary">Kopírovat URL</button>
+      </div>
+      <p class="small">Tip: Pro živý eShop link používej URL obrázku. Lokální soubor se použije jen v prohlížeči.</p>
+    </aside>
+
+    <section class="preview">
+      <iframe id="preview" src="hero-banner-v12.html"></iframe>
+      <div class="code" id="embedCode"></div>
+    </section>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+</html>

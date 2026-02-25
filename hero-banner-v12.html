@@ -254,10 +254,38 @@
 
     <div class="content">
 
-        <h1>Chuť, kterou<br>si zamilují<br>i šéfkuchaři</h1>
-        <div class="tagline-v5">Ochutnejte pravé lanýžové produkty</div>
-        <a href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_top">Nakupovat <span>→</span></a>
+        <h1 id="bannerTitle">Chuť, kterou<br>si zamilují<br>i šéfkuchaři</h1>
+        <div class="tagline-v5" id="bannerSubtitle">Ochutnejte pravé lanýžové produkty</div>
+        <a id="bannerCta" href="https://www.tartuf.cz/lanyzove-produkty/" class="cta-v5" target="_top">Nakupovat <span>→</span></a>
     </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const title = params.get('title');
+            const subtitle = params.get('subtitle');
+            const ctaText = params.get('ctaText');
+            const ctaHref = params.get('ctaHref');
+            const bg = params.get('bg');
+
+            const titleEl = document.getElementById('bannerTitle');
+            const subEl = document.getElementById('bannerSubtitle');
+            const ctaEl = document.getElementById('bannerCta');
+            const bgEl = document.querySelector('.background-image');
+
+            if (title && titleEl) {
+                titleEl.innerHTML = title
+                    .replace(/\n/g, '<br>')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/&lt;br&gt;/g, '<br>');
+            }
+            if (subtitle && subEl) subEl.textContent = subtitle;
+            if (ctaText && ctaEl) ctaEl.childNodes[0].nodeValue = `${ctaText} `;
+            if (ctaHref && ctaEl) ctaEl.href = ctaHref;
+            if (bg && bgEl) bgEl.style.backgroundImage = `url('${bg}')`;
+        })();
+    </script>
 </body>
 
 
