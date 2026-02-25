@@ -20,7 +20,8 @@ function currentParams() {
 }
 
 function buildBannerUrl() {
-  const url = new URL('hero-banner-v12.html', window.location.href);
+  const target = $('targetBanner').value || 'hero-banner-v12.html';
+  const url = new URL(target, window.location.href);
   url.search = currentParams().toString();
   return url.toString();
 }
@@ -37,6 +38,14 @@ function apply() {
 }
 
 $('applyBtn').addEventListener('click', apply);
+$('targetBanner').addEventListener('change', () => {
+  loadPreset();
+  apply();
+});
+
+function presetKey() {
+  return `tartuf-banner-preset-${$('targetBanner').value}`;
+}
 
 $('saveBtn').addEventListener('click', () => {
   const preset = {
@@ -46,8 +55,8 @@ $('saveBtn').addEventListener('click', () => {
     ctaHref: $('ctaHref').value,
     bgUrl: $('bgUrl').value
   };
-  localStorage.setItem('tartuf-banner-preset-v12', JSON.stringify(preset));
-  alert('Preset uložen.');
+  localStorage.setItem(presetKey(), JSON.stringify(preset));
+  alert('Preset uložen pro vybraný banner.');
 });
 
 $('copyBtn').addEventListener('click', async () => {
@@ -67,17 +76,20 @@ $('bgFile').addEventListener('change', (e) => {
   r.readAsDataURL(file);
 });
 
+function loadPreset() {
+  const saved = localStorage.getItem(presetKey());
+  if (!saved) return;
+  try {
+    const p = JSON.parse(saved);
+    if (p.title) $('title').value = p.title;
+    if (p.subtitle) $('subtitle').value = p.subtitle;
+    if (p.ctaText) $('ctaText').value = p.ctaText;
+    if (p.ctaHref) $('ctaHref').value = p.ctaHref;
+    if (p.bgUrl) $('bgUrl').value = p.bgUrl;
+  } catch {}
+}
+
 (function bootstrap() {
-  const saved = localStorage.getItem('tartuf-banner-preset-v12');
-  if (saved) {
-    try {
-      const p = JSON.parse(saved);
-      if (p.title) $('title').value = p.title;
-      if (p.subtitle) $('subtitle').value = p.subtitle;
-      if (p.ctaText) $('ctaText').value = p.ctaText;
-      if (p.ctaHref) $('ctaHref').value = p.ctaHref;
-      if (p.bgUrl) $('bgUrl').value = p.bgUrl;
-    } catch {}
-  }
+  loadPreset();
   apply();
 })();

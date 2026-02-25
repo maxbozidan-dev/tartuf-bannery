@@ -139,10 +139,35 @@
     <div class="bg-overlay"></div>
 
     <div class="content">
-        <h1>Gurmánský dárek<br>bez kompromisů</h1>
-        <a href="https://www.tartuf.cz/lanyz-jako-firemni-darek/" class="cta-v5" target="_top">Nakupovat
+        <h1 id="bannerTitle">Gurmánský dárek<br>bez kompromisů</h1>
+        <a id="bannerCta" href="https://www.tartuf.cz/lanyz-jako-firemni-darek/" class="cta-v5" target="_top">Nakupovat
             <span>→</span></a>
     </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const title = params.get('title');
+            const ctaText = params.get('ctaText');
+            const ctaHref = params.get('ctaHref');
+            const bg = params.get('bg');
+
+            const titleEl = document.getElementById('bannerTitle');
+            const ctaEl = document.getElementById('bannerCta');
+            const bgEl = document.querySelector('.background-image');
+
+            if (title && titleEl) {
+                const safe = title
+                    .replace(/\n/g, '<br>')
+                    .replace(/<(?!br\s*\/?)[^>]+>/gi, '')
+                    .replace(/javascript:/gi, '');
+                titleEl.innerHTML = safe;
+            }
+            if (ctaText && ctaEl) ctaEl.childNodes[0].nodeValue = `${ctaText} `;
+            if (ctaHref && ctaEl) ctaEl.href = ctaHref;
+            if (bg && bgEl) bgEl.style.backgroundImage = `url('${bg}')`;
+        })();
+    </script>
 </body>
 
 </html>
