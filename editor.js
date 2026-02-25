@@ -22,7 +22,12 @@ function currentParams() {
 function buildBannerUrl() {
   const target = $('targetBanner').value || 'hero-banner-v12.html';
   const url = new URL(target, window.location.href);
-  url.search = currentParams().toString();
+  const params = currentParams();
+
+  const rev = localStorage.getItem(`tartuf-publish-rev-${target}`);
+  if (rev) params.set('rev', rev);
+
+  url.search = params.toString();
   return url.toString();
 }
 
@@ -73,7 +78,14 @@ $('saveBtn').addEventListener('click', () => {
     bgUrl: $('bgUrl').value
   };
   localStorage.setItem(presetKey(), JSON.stringify(preset));
-  alert('Preset uložen pro vybraný banner.');
+
+  const target = $('targetBanner').value;
+  const revKey = `tartuf-publish-rev-${target}`;
+  const rev = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  localStorage.setItem(revKey, rev);
+
+  alert('Preset uložen a vygenerována nová publish URL pro vybraný banner.');
+  apply();
 });
 
 $('copyBtn').addEventListener('click', async () => {

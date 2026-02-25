@@ -61,7 +61,11 @@
     <script>
         (function () {
             const base = 'https://maxbozidan-dev.github.io/tartuf-bannery/';
-            const buildCode = (src) => `&lt;iframe src="${base}${src}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+            const buildCode = (src) => {
+                const rev = localStorage.getItem(`tartuf-publish-rev-${src}`);
+                const finalSrc = rev ? `${base}${src}?rev=${encodeURIComponent(rev)}` : `${base}${src}`;
+                return `&lt;iframe src="${finalSrc}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+            };
 
             document.querySelectorAll('.copy-embed-btn').forEach((btn) => {
                 btn.addEventListener('click', async () => {
