@@ -99,7 +99,15 @@ h1 {
 }
 
 .dashboard-layout.single-main {
-    grid-template-columns: 1fr;
+    display: block;
+}
+
+.dashboard-layout.single-main .banner-main {
+    width: 100%;
+}
+
+.dashboard-layout.side-by-side {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .dashboard-layout.side-by-side .banner-card {
