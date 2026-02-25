@@ -94,6 +94,11 @@ $('copyBtn').addEventListener('click', async () => {
   alert('URL banneru zkopírována.');
 });
 
+$('copyEmbedBtn').addEventListener('click', async () => {
+  await navigator.clipboard.writeText($('embedCode').textContent || '');
+  alert('Iframe kód zkopírován.');
+});
+
 $('bgFile').addEventListener('change', (e) => {
   const file = e.target.files?.[0];
   if (!file) return;
