@@ -20,7 +20,7 @@ function currentParams() {
 }
 
 function buildBannerUrl() {
-  const target = $('targetBanner').value || 'hero-banner-v12.html';
+  const target = $('targetBanner').value || 'hlavni-banner.html';
   const url = new URL(target, window.location.href);
   const params = currentParams();
 
