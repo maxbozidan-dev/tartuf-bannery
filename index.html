@@ -61,15 +61,34 @@
     <script>
         (function () {
             const base = 'https://maxbozidan-dev.github.io/tartuf-bannery/';
-            const buildCode = (src) => {
-                const rev = localStorage.getItem(`tartuf-publish-rev-${src}`);
-                const finalSrc = rev ? `${base}${src}?rev=${encodeURIComponent(rev)}` : `${base}${src}`;
-                return `&lt;iframe src="${finalSrc}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+
+            const buildPublishedUrl = (src) => {
+                const url = new URL(`${base}${src}`);
+                const raw = localStorage.getItem(`tartuf-publish-data-${src}`);
+                if (!raw) return url.toString();
+
+                try {
+                    const data = JSON.parse(raw);
+                    if (data.title) url.searchParams.set('title', data.title);
+                    if (data.subtitle) url.searchParams.set('subtitle', data.subtitle);
+                    if (data.ctaText) url.searchParams.set('ctaText', data.ctaText);
+                    if (data.ctaHref) url.searchParams.set('ctaHref', data.ctaHref);
+                    if (data.bgUrl) url.searchParams.set('bg', data.bgUrl);
+                    if (data.rev) url.searchParams.set('rev', data.rev);
+                } catch {}
+
+                return url.toString();
             };
 
+            const buildCode = (src) =>
+                `&lt;iframe src="${buildPublishedUrl(src)}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+
             document.querySelectorAll('.copy-embed-btn').forEach((btn) => {
+                const src = btn.getAttribute('data-src');
+                const iframe = document.querySelector(`iframe[src="${src}"]`);
+                if (iframe) iframe.src = buildPublishedUrl(src);
+
                 btn.addEventListener('click', async () => {
-                    const src = btn.getAttribute('data-src');
                     const code = buildCode(src);
                     await navigator.clipboard.writeText(code);
                     const original = btn.textContent;

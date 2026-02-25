@@ -24,8 +24,13 @@ function buildBannerUrl() {
   const url = new URL(target, window.location.href);
   const params = currentParams();
 
-  const rev = localStorage.getItem(`tartuf-publish-rev-${target}`);
-  if (rev) params.set('rev', rev);
+  const publishedRaw = localStorage.getItem(`tartuf-publish-data-${target}`);
+  if (publishedRaw) {
+    try {
+      const published = JSON.parse(publishedRaw);
+      if (published.rev) params.set('rev', published.rev);
+    } catch {}
+  }
 
   url.search = params.toString();
   return url.toString();
@@ -80,11 +85,11 @@ $('saveBtn').addEventListener('click', () => {
   localStorage.setItem(presetKey(), JSON.stringify(preset));
 
   const target = $('targetBanner').value;
-  const revKey = `tartuf-publish-rev-${target}`;
   const rev = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-  localStorage.setItem(revKey, rev);
+  const publishData = { ...preset, rev };
+  localStorage.setItem(`tartuf-publish-data-${target}`, JSON.stringify(publishData));
 
-  alert('Preset uložen a vygenerována nová publish URL pro vybraný banner.');
+  alert('Změny uloženy a publikovány do vybraného banneru.');
   apply();
 });
 
