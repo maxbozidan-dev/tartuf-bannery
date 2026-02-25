@@ -86,13 +86,17 @@
             function applyPublishedToDashboard() {
                 document.querySelectorAll('iframe[data-banner]').forEach((iframe) => {
                     const src = iframe.getAttribute('data-banner');
-                    iframe.src = buildPublishedUrl(src);
+                    const nextUrl = buildPublishedUrl(src);
+                    if (iframe.src !== nextUrl) {
+                        iframe.src = nextUrl;
+                    }
                 });
             }
 
             applyPublishedToDashboard();
 
-            window.addEventListener('storage', () => {
+            window.addEventListener('storage', (event) => {
+                if (!event.key || !event.key.startsWith('tartuf-publish-data-')) return;
                 applyPublishedToDashboard();
             });
 
