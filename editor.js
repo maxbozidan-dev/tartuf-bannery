@@ -37,8 +37,15 @@ function apply() {
   updateEmbedCode(url);
 }
 
+function updateTargetHint() {
+  const select = $('targetBanner');
+  const text = select.options[select.selectedIndex]?.text || 'Banner';
+  $('targetHint').textContent = `Aktuálně upravuješ: ${text}`;
+}
+
 $('applyBtn').addEventListener('click', apply);
 $('targetBanner').addEventListener('change', () => {
+  updateTargetHint();
   loadPreset();
   apply();
 });
@@ -90,6 +97,7 @@ function loadPreset() {
 }
 
 (function bootstrap() {
+  updateTargetHint();
   loadPreset();
   apply();
 })();
