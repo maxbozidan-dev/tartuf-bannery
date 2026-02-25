@@ -74,7 +74,16 @@ function presetKey() {
   return `tartuf-banner-preset-${$('targetBanner').value}`;
 }
 
-$('saveBtn').addEventListener('click', () => {
+const N8N_WEBHOOK_URL = 'https://n8n.srv1004354.hstgr.cloud/webhook-test/tartuf-publish';
+
+function mapTargetForWorkflow(target) {
+  if (target === 'hlavni-banner.html') return 'hlavni';
+  if (target === 'doplnkovy-banner-1.html') return 'doplnkovy1';
+  if (target === 'doplnkovy-banner-2.html') return 'doplnkovy2';
+  return 'hlavni';
+}
+
+$('saveBtn').addEventListener('click', async () => {
   const preset = {
     title: $('title').value,
     subtitle: $('subtitle').value,
@@ -92,7 +101,31 @@ $('saveBtn').addEventListener('click', () => {
   const publishData = { ...preset, rev, publishedAt: new Date().toISOString() };
   localStorage.setItem(`tartuf-publish-data-${target}`, JSON.stringify(publishData));
 
-  alert('Změny uloženy a publikovány do vybraného banneru.');
+  const payload = {
+    target: mapTargetForWorkflow(target),
+    title: preset.title,
+    subtitle: preset.subtitle,
+    ctaText: preset.ctaText,
+    ctaHref: preset.ctaHref,
+    bgUrl: preset.bgUrl
+  };
+
+  try {
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      alert(`Lokálně uloženo, ale odeslání do n8n selhalo (HTTP ${res.status}).`);
+    } else {
+      alert('Změny uloženy, publikovány a odeslány do n8n workflow.');
+    }
+  } catch (e) {
+    alert('Lokálně uloženo, ale n8n endpoint není dostupný.');
+  }
+
   apply();
 });
 
