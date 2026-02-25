@@ -85,8 +85,11 @@ $('saveBtn').addEventListener('click', () => {
   localStorage.setItem(presetKey(), JSON.stringify(preset));
 
   const target = $('targetBanner').value;
-  const rev = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-  const publishData = { ...preset, rev };
+  const uniquePart = (typeof crypto !== 'undefined' && crypto.randomUUID)
+    ? crypto.randomUUID().slice(0, 8)
+    : Math.random().toString(36).slice(2, 10);
+  const rev = `pub-${Date.now()}-${uniquePart}`;
+  const publishData = { ...preset, rev, publishedAt: new Date().toISOString() };
   localStorage.setItem(`tartuf-publish-data-${target}`, JSON.stringify(publishData));
 
   alert('Změny uloženy a publikovány do vybraného banneru.');
