@@ -81,7 +81,7 @@
             };
 
             const buildCode = (src) =>
-                `&lt;iframe src="${buildPublishedUrl(src)}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+                `<iframe src="${buildPublishedUrl(src)}" width="100%" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"></iframe>`;
 
             function applyPublishedToDashboard() {
                 document.querySelectorAll('iframe[data-banner]').forEach((iframe) => {
