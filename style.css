@@ -18,7 +18,7 @@ header {
 .editor-cta-inline {
     display: flex;
     justify-content: center;
-    margin: 6px 0 16px;
+    margin: 10px 0 26px;
 }
 
 .open-editor-btn {
@@ -30,10 +30,11 @@ header {
     text-decoration: none;
     border: 1px solid #334155;
     border-radius: 10px;
-    padding: 12px 18px;
+    padding: 12px 22px;
     font-weight: 700;
     white-space: nowrap;
     box-shadow: 0 8px 20px rgba(15,23,42,.18);
+    margin: 0 auto;
 }
 
 .open-editor-btn:hover {
@@ -91,7 +92,7 @@ h1 {
 
 .dashboard-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
     gap: 20px;
     align-items: start;
     margin-bottom: 20px;
