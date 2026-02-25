@@ -15,11 +15,10 @@ header {
     margin-bottom: 20px;
 }
 
-.editor-cta-card {
+.editor-cta-inline {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: center;
+    margin: 6px 0 16px;
 }
 
 .open-editor-btn {
@@ -50,7 +49,7 @@ h1 {
 
 .banner-list {
     width: 100%;
-    max-width: 1320px;
+    max-width: 1200px;
 }
 
 .banner-card {
@@ -115,13 +114,13 @@ h1 {
 @media (max-width: 980px) {
     body.dashboard { padding: 12px; }
 
-    .editor-cta-card {
-        flex-direction: column;
-        align-items: stretch;
+    .editor-cta-inline {
+        justify-content: stretch;
     }
 
     .open-editor-btn {
         width: 100%;
+        text-align: center;
     }
 
     .dashboard-layout {

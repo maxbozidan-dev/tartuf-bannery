@@ -43,11 +43,21 @@ function updateTargetHint() {
   $('targetHint').textContent = `Aktuálně upravuješ: ${text}`;
 }
 
+function setActiveTab(target) {
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.target === target);
+  });
+}
+
 $('applyBtn').addEventListener('click', apply);
-$('targetBanner').addEventListener('change', () => {
-  updateTargetHint();
-  loadPreset();
-  apply();
+document.querySelectorAll('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    $('targetBanner').value = btn.dataset.target;
+    setActiveTab(btn.dataset.target);
+    updateTargetHint();
+    loadPreset();
+    apply();
+  });
 });
 
 function presetKey() {
@@ -97,6 +107,7 @@ function loadPreset() {
 }
 
 (function bootstrap() {
+  setActiveTab($('targetBanner').value);
   updateTargetHint();
   loadPreset();
   apply();
