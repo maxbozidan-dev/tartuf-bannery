@@ -30,9 +30,37 @@ h1 {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    padding: 24px;
-    margin-bottom: 24px;
+    padding: 20px;
+    margin-bottom: 16px;
     min-width: 0;
+}
+
+.banner-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.banner-head h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.copy-embed-btn {
+    background: #1e293b;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.copy-embed-btn:hover {
+    background: #334155;
 }
 
 .dashboard-layout {
@@ -49,12 +77,8 @@ h1 {
 
 .banner-side-stack {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     gap: 16px;
-}
-
-.banner-side-stack .iframe-side {
-    min-height: 0;
 }
 
 .banner-side-stack .banner-card {

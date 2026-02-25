@@ -26,36 +26,33 @@
 
         <section class="dashboard-layout">
             <article class="banner-card banner-main">
-                <h2>Hlavní banner (karusel) — 1704×1032</h2>
+                <div class="banner-head">
+                    <h2>Hlavní banner (karusel) — 1704×1032</h2>
+                    <button class="copy-embed-btn" data-src="hero-banner-v12.html">Kopírovat kód</button>
+                </div>
                 <div class="iframe-container iframe-main" style="aspect-ratio: 1704/1032;">
                     <iframe src="hero-banner-v12.html" frameborder="0" width="100%" height="auto"></iframe>
-                </div>
-                <div class="integration-code">
-                    <h3>Kód pro Shoptet:</h3>
-                    <pre><code>&lt;iframe src="https://maxbozidan-dev.github.io/tartuf-bannery/hero-banner-v12.html" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</code></pre>
                 </div>
             </article>
 
             <div class="banner-side-stack">
                 <article class="banner-card">
-                    <h2>Doplňkový banner č. 1 — 1704×1032</h2>
-                    <div class="iframe-container iframe-side" style="aspect-ratio: 1704/516;">
-                        <iframe src="oil-banner-v9.html" frameborder="0" width="100%" height="auto"></iframe>
+                    <div class="banner-head">
+                        <h2>Doplňkový banner č. 1 — 1704×1032</h2>
+                        <button class="copy-embed-btn" data-src="oil-banner-v9.html">Kopírovat kód</button>
                     </div>
-                    <div class="integration-code">
-                        <h3>Kód pro Shoptet:</h3>
-                        <pre><code>&lt;iframe src="https://maxbozidan-dev.github.io/tartuf-bannery/oil-banner-v9.html" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</code></pre>
+                    <div class="iframe-container iframe-side" style="aspect-ratio: 1704/1032;">
+                        <iframe src="oil-banner-v9.html" frameborder="0" width="100%" height="auto"></iframe>
                     </div>
                 </article>
 
                 <article class="banner-card">
-                    <h2>Doplňkový banner č. 2 — 1704×1032</h2>
-                    <div class="iframe-container iframe-side" style="aspect-ratio: 1704/516;">
-                        <iframe src="gift-banner-v2.html" frameborder="0" width="100%" height="auto"></iframe>
+                    <div class="banner-head">
+                        <h2>Doplňkový banner č. 2 — 1704×1032</h2>
+                        <button class="copy-embed-btn" data-src="gift-banner-v2.html">Kopírovat kód</button>
                     </div>
-                    <div class="integration-code">
-                        <h3>Kód pro Shoptet:</h3>
-                        <pre><code>&lt;iframe src="https://maxbozidan-dev.github.io/tartuf-bannery/gift-banner-v2.html" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</code></pre>
+                    <div class="iframe-container iframe-side" style="aspect-ratio: 1704/1032;">
+                        <iframe src="gift-banner-v2.html" frameborder="0" width="100%" height="auto"></iframe>
                     </div>
                 </article>
             </div>
@@ -65,6 +62,24 @@
     <footer>
         <p>&copy; 2024 Tartuf - Animované Bannery</p>
     </footer>
+
+    <script>
+        (function () {
+            const base = 'https://maxbozidan-dev.github.io/tartuf-bannery/';
+            const buildCode = (src) => `&lt;iframe src="${base}${src}" width="100%" height="auto" style="aspect-ratio: 1704/1032;" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;`;
+
+            document.querySelectorAll('.copy-embed-btn').forEach((btn) => {
+                btn.addEventListener('click', async () => {
+                    const src = btn.getAttribute('data-src');
+                    const code = buildCode(src);
+                    await navigator.clipboard.writeText(code);
+                    const original = btn.textContent;
+                    btn.textContent = 'Zkopírováno ✓';
+                    setTimeout(() => (btn.textContent = original), 1400);
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
