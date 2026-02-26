@@ -8,16 +8,13 @@ function currentParams() {
   const ctaText = $('ctaText').value.trim();
   const ctaHref = $('ctaHref').value.trim();
   const bgColor = $('bgColor').value;
-  const productUrl = $('productUrl').value.trim();
-
   const p = new URLSearchParams();
   if (title) p.set('title', title);
   if (subtitle) p.set('subtitle', subtitle);
   if (ctaText) p.set('ctaText', ctaText);
   if (ctaHref) p.set('ctaHref', ctaHref);
   if (bgColor) p.set('bgColor', bgColor);
-  if (productUrl) p.set('product', productUrl);
-  if (!productUrl && localProductData) p.set('product', localProductData);
+  if (localProductData) p.set('product', localProductData);
   return p;
 }
 
@@ -65,7 +62,6 @@ function setActiveTab(target) {
   });
 }
 
-$('applyBtn').addEventListener('click', apply);
 document.querySelectorAll('.tab-btn').forEach((btn) => {
   btn.addEventListener('click', () => {
     $('targetBanner').value = btn.dataset.target;
@@ -89,15 +85,19 @@ function mapTargetForWorkflow(target) {
   return 'hlavni';
 }
 
-$('saveBtn').addEventListener('click', async () => {
-  const preset = {
+function buildLocalPreset() {
+  return {
     title: $('title').value,
     subtitle: $('subtitle').value,
     ctaText: $('ctaText').value,
     ctaHref: $('ctaHref').value,
     bgColor: $('bgColor').value,
-    productUrl: $('productUrl').value
+    productData: localProductData
   };
+}
+
+function saveLocalState() {
+  const preset = buildLocalPreset();
   localStorage.setItem(presetKey(), JSON.stringify(preset));
 
   const target = $('targetBanner').value;
@@ -108,6 +108,18 @@ $('saveBtn').addEventListener('click', async () => {
   const publishData = { ...preset, rev, publishedAt: new Date().toISOString() };
   localStorage.setItem(`tartuf-publish-data-${target}`, JSON.stringify(publishData));
 
+  return { target, preset, rev };
+}
+
+$('applyBtn').addEventListener('click', () => {
+  saveLocalState();
+  apply();
+  alert('Změny použity a lokálně uloženy.');
+});
+
+$('saveBtn').addEventListener('click', async () => {
+  const { target, preset } = saveLocalState();
+
   const payload = {
     target: mapTargetForWorkflow(target),
     title: preset.title,
@@ -115,8 +127,7 @@ $('saveBtn').addEventListener('click', async () => {
     ctaText: preset.ctaText,
     ctaHref: preset.ctaHref,
     bgColor: preset.bgColor,
-    productUrl: preset.productUrl,
-    productData: !preset.productUrl ? localProductData : ''
+    productData: preset.productData || ''
   };
 
   try {
@@ -127,21 +138,15 @@ $('saveBtn').addEventListener('click', async () => {
     });
 
     if (!res.ok) {
-      alert(`Lokálně uloženo, ale odeslání do n8n selhalo (HTTP ${res.status}).`);
+      alert(`Lokálně uloženo, ale export do GitHubu selhal (HTTP ${res.status}).`);
     } else {
-      alert('Změny uloženy, publikovány a odeslány do n8n workflow.');
+      alert('Export do GitHubu spuštěn přes n8n workflow.');
     }
   } catch (e) {
     alert('Lokálně uloženo, ale n8n endpoint není dostupný.');
   }
 
   apply();
-});
-
-$('copyBtn').addEventListener('click', async () => {
-  const url = buildBannerUrl();
-  await navigator.clipboard.writeText(url);
-  alert('URL banneru zkopírována.');
 });
 
 $('copyEmbedBtn').addEventListener('click', async () => {
@@ -170,7 +175,7 @@ function loadPreset() {
     if (p.ctaText) $('ctaText').value = p.ctaText;
     if (p.ctaHref) $('ctaHref').value = p.ctaHref;
     if (p.bgColor) $('bgColor').value = p.bgColor;
-    if (p.productUrl) $('productUrl').value = p.productUrl;
+    if (p.productData) localProductData = p.productData;
   } catch {}
 }
 

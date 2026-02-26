@@ -70,21 +70,17 @@
         <input id="bgColor" type="color" value="#111111" />
       </div>
       <div class="field">
-        <label>URL produktového PNG (vpravo)</label>
-        <input id="productUrl" placeholder="https://.../produkt.png" />
-      </div>
-      <div class="field">
-        <label>Lokální PNG produktu (pro rychlý náhled)</label>
+        <label>Produktové PNG (vpravo)</label>
         <input id="productFile" type="file" accept="image/png,image/webp,image/jpeg" />
+        <p class="small">Nahraješ jeden produktový obrázek. Ten se zobrazí v náhledu a použije se pro export.</p>
       </div>
 
       <div class="actions">
         <button id="applyBtn">Použít změny</button>
-        <button id="saveBtn" class="secondary">Uložit do vybraného banneru</button>
-        <button id="copyBtn" class="secondary">Kopírovat URL</button>
+        <button id="saveBtn" class="secondary">Export do GitHubu</button>
       </div>
-      <p class="small" id="targetHint">Aktuálně upravuješ: Hlavní banner (karusel)</p>
-      <p class="small">Tip: Nastav barvu pozadí + PNG produktu. Produkt se animuje (zoom + jemná rotace).</p>
+      <p class="small" id="targetHint">Aktuálně upravuješ: Hlavní banner</p>
+      <p class="small">"Použít změny" uloží lokální verzi a hned ji promítne do náhledu. "Export do GitHubu" odešle publish do workflow.</p>
     </aside>
 
     <section class="preview">
