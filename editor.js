@@ -1,6 +1,7 @@
 const $ = (id) => document.getElementById(id);
 const preview = $('preview');
 let localProductData = '';
+let localProductPreviewUrl = '';
 
 function currentParams() {
   const title = $('title').value.trim();
@@ -14,7 +15,8 @@ function currentParams() {
   if (ctaText) p.set('ctaText', ctaText);
   if (ctaHref) p.set('ctaHref', ctaHref);
   if (bgColor) p.set('bgColor', bgColor);
-  if (localProductData) p.set('product', localProductData);
+  if (localProductPreviewUrl) p.set('product', localProductPreviewUrl);
+  else if (localProductData) p.set('product', localProductData);
   return p;
 }
 
@@ -91,8 +93,7 @@ function buildLocalPreset() {
     subtitle: $('subtitle').value,
     ctaText: $('ctaText').value,
     ctaHref: $('ctaHref').value,
-    bgColor: $('bgColor').value,
-    productData: localProductData
+    bgColor: $('bgColor').value
   };
 }
 
@@ -127,7 +128,7 @@ $('saveBtn').addEventListener('click', async () => {
     ctaText: preset.ctaText,
     ctaHref: preset.ctaHref,
     bgColor: preset.bgColor,
-    productData: preset.productData || ''
+    productData: localProductData || ''
   };
 
   try {
@@ -157,6 +158,13 @@ $('copyEmbedBtn').addEventListener('click', async () => {
 $('productFile').addEventListener('change', (e) => {
   const file = e.target.files?.[0];
   if (!file) return;
+
+  if (localProductPreviewUrl) {
+    URL.revokeObjectURL(localProductPreviewUrl);
+    localProductPreviewUrl = '';
+  }
+  localProductPreviewUrl = URL.createObjectURL(file);
+
   const r = new FileReader();
   r.onload = () => {
     localProductData = String(r.result || '');
