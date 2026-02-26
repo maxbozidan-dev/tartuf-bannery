@@ -132,19 +132,29 @@ $('saveBtn').addEventListener('click', async () => {
   };
 
   try {
-    const res = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    const sent = navigator.sendBeacon(
+      N8N_WEBHOOK_URL,
+      new Blob([JSON.stringify(payload)], { type: 'text/plain;charset=UTF-8' })
+    );
 
-    if (!res.ok) {
-      alert(`Lokálně uloženo, ale export do GitHubu selhal (HTTP ${res.status}).`);
+    if (sent) {
+      alert('Export odeslán do n8n workflow.');
     } else {
-      alert('Export do GitHubu spuštěn přes n8n workflow.');
+      throw new Error('sendBeacon returned false');
     }
   } catch (e) {
-    alert('Lokálně uloženo, ale n8n endpoint není dostupný.');
+    try {
+      const res = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      alert('Export do GitHubu spuštěn přes n8n workflow.');
+    } catch {
+      alert('Lokálně uloženo, ale export request byl blokovaný (nejspíš CORS/webhook).');
+    }
   }
 
   apply();
