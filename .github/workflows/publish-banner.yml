@@ -14,7 +14,11 @@ on:
         required: false
       ctaHref:
         required: false
-      bgUrl:
+      bgColor:
+        required: false
+      productData:
+        required: false
+      productData2:
         required: false
 
 permissions:
@@ -56,25 +60,66 @@ jobs:
         run: |
           cp "${{ steps.vars.outputs.base_file }}" "${{ steps.vars.outputs.out_file }}"
 
-      - name: Write publish manifest
+      - name: Persist publish payload (fields + images)
         shell: bash
+        env:
+          TARGET: ${{ github.event.inputs.target }}
+          KEY: ${{ steps.vars.outputs.publish_key }}
+          TITLE: ${{ github.event.inputs.title }}
+          SUBTITLE: ${{ github.event.inputs.subtitle }}
+          CTATEXT: ${{ github.event.inputs.ctaText }}
+          CTAHREF: ${{ github.event.inputs.ctaHref }}
+          BGCOLOR: ${{ github.event.inputs.bgColor }}
+          PRODUCT_DATA: ${{ github.event.inputs.productData }}
+          PRODUCT_DATA_2: ${{ github.event.inputs.productData2 }}
         run: |
-          mkdir -p .publish
-          cat > ".publish/${{ github.event.inputs.target }}.json" <<EOF
-          {
-            "target": "${{ github.event.inputs.target }}",
-            "file": "${{ steps.vars.outputs.out_file }}",
-            "key": "${{ steps.vars.outputs.publish_key }}",
-            "createdAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            "inputs": {
-              "title": "${{ github.event.inputs.title }}",
-              "subtitle": "${{ github.event.inputs.subtitle }}",
-              "ctaText": "${{ github.event.inputs.ctaText }}",
-              "ctaHref": "${{ github.event.inputs.ctaHref }}",
-              "bgUrl": "${{ github.event.inputs.bgUrl }}"
-            }
-          }
-          EOF
+          mkdir -p .publish/assets
+          python3 - <<'PY'
+import os, json, base64, re
+from pathlib import Path
+
+target=os.environ.get('TARGET','')
+key=os.environ.get('KEY','')
+out={
+  'target': target,
+  'key': key,
+  'createdAt': __import__('datetime').datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+  'inputs': {
+    'title': os.environ.get('TITLE',''),
+    'subtitle': os.environ.get('SUBTITLE',''),
+    'ctaText': os.environ.get('CTATEXT',''),
+    'ctaHref': os.environ.get('CTAHREF',''),
+    'bgColor': os.environ.get('BGCOLOR','')
+  },
+  'assets': {}
+}
+
+assets_dir=Path('.publish/assets')
+
+def save_data_url(name, data_url):
+  if not data_url or not data_url.startswith('data:'):
+    return None
+  m=re.match(r'^data:([^;]+);base64,(.+)$', data_url, re.S)
+  if not m:
+    return None
+  mime, b64 = m.group(1), m.group(2)
+  ext='bin'
+  if 'png' in mime: ext='png'
+  elif 'jpeg' in mime or 'jpg' in mime: ext='jpg'
+  elif 'webp' in mime: ext='webp'
+  filename=f"{target}-{name}-{key}.{ext}"
+  path=assets_dir/filename
+  path.write_bytes(base64.b64decode(b64))
+  return str(path)
+
+p1=save_data_url('product', os.environ.get('PRODUCT_DATA',''))
+if p1: out['assets']['product']=p1
+p2=save_data_url('product2', os.environ.get('PRODUCT_DATA_2',''))
+if p2: out['assets']['product2']=p2
+
+Path('.publish').mkdir(exist_ok=True)
+Path(f'.publish/{target}.json').write_text(json.dumps(out, ensure_ascii=False, indent=2))
+PY
 
       - name: Commit & push
         shell: bash
