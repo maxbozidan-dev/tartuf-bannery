@@ -1,0 +1,142 @@
+name: Publish banner dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "hlavni|doplnkovy1|doplnkovy2"
+        required: true
+        type: string
+      title:
+        required: false
+        type: string
+      subtitle:
+        required: false
+        type: string
+      ctaText:
+        required: false
+        type: string
+      ctaHref:
+        required: false
+        type: string
+      bgColor:
+        required: false
+        type: string
+      productData:
+        required: false
+        type: string
+      productData2:
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve target + generate unique file name
+        id: vars
+        shell: bash
+        run: |
+          TS=$(date +%s)
+          RAND=$(openssl rand -hex 3)
+          KEY="${TS}${RAND}"
+
+          TARGET_RAW="${{ github.event.inputs.target }}"
+          TARGET="${TARGET_RAW#==}"
+
+          case "$TARGET" in
+            hlavni) PREFIX="hlavni-banner" ;;
+            doplnkovy1) PREFIX="doplnkovy-banner-1" ;;
+            doplnkovy2) PREFIX="doplnkovy-banner-2" ;;
+            *) echo "Invalid target: $TARGET_RAW"; exit 1 ;;
+          esac
+
+          BASE_FILE="${PREFIX}.html"
+          OUT_FILE="${PREFIX}-${KEY}.html"
+
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "base_file=$BASE_FILE" >> "$GITHUB_OUTPUT"
+          echo "out_file=$OUT_FILE" >> "$GITHUB_OUTPUT"
+          echo "publish_key=$KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Create published banner file
+        shell: bash
+        run: |
+          cp "${{ steps.vars.outputs.base_file }}" "${{ steps.vars.outputs.out_file }}"
+
+      - name: Persist publish payload (fields + images)
+        shell: bash
+        env:
+          TARGET: ${{ steps.vars.outputs.target }}
+          KEY: ${{ steps.vars.outputs.publish_key }}
+          TITLE: ${{ github.event.inputs.title }}
+          SUBTITLE: ${{ github.event.inputs.subtitle }}
+          CTATEXT: ${{ github.event.inputs.ctaText }}
+          CTAHREF: ${{ github.event.inputs.ctaHref }}
+          BGCOLOR: ${{ github.event.inputs.bgColor }}
+          PRODUCT_DATA: ${{ github.event.inputs.productData }}
+          PRODUCT_DATA_2: ${{ github.event.inputs.productData2 }}
+        run: |
+          mkdir -p .publish/assets
+          python3 - <<'PY'
+import os, json, base64, re
+from pathlib import Path
+from datetime import datetime
+
+target=os.environ.get('TARGET','')
+key=os.environ.get('KEY','')
+out={
+  'target': target,
+  'file': os.environ.get('GITHUB_WORKSPACE','') + '/' + os.environ.get('TARGET',''),
+  'key': key,
+  'createdAt': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+  'inputs': {
+    'title': os.environ.get('TITLE',''),
+    'subtitle': os.environ.get('SUBTITLE',''),
+    'ctaText': os.environ.get('CTATEXT',''),
+    'ctaHref': os.environ.get('CTAHREF',''),
+    'bgColor': os.environ.get('BGCOLOR','')
+  },
+  'assets': {}
+}
+
+assets_dir=Path('.publish/assets')
+
+def save_data_url(name, data_url):
+  if not data_url or not data_url.startswith('data:'):
+    return None
+  m=re.match(r'^data:([^;]+);base64,(.+)$', data_url, re.S)
+  if not m:
+    return None
+  mime, b64 = m.group(1), m.group(2)
+  ext='bin'
+  if 'png' in mime: ext='png'
+  elif 'jpeg' in mime or 'jpg' in mime: ext='jpg'
+  elif 'webp' in mime: ext='webp'
+  filename=f"{target}-{name}-{key}.{ext}"
+  path=assets_dir/filename
+  path.write_bytes(base64.b64decode(b64))
+  return str(path)
+
+p1=save_data_url('product', os.environ.get('PRODUCT_DATA',''))
+if p1: out['assets']['product']=p1
+p2=save_data_url('product2', os.environ.get('PRODUCT_DATA_2',''))
+if p2: out['assets']['product2']=p2
+
+Path('.publish').mkdir(exist_ok=True)
+Path(f'.publish/{target}.json').write_text(json.dumps(out, ensure_ascii=False, indent=2))
+PY
+
+      - name: Commit & push
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ steps.vars.outputs.out_file }}" .publish/
+          git commit -m "publish: ${{ steps.vars.outputs.target }} -> ${{ steps.vars.outputs.out_file }}" || echo "No changes"
+          git push
