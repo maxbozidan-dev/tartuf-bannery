@@ -78,7 +78,10 @@ function presetKey() {
   return `tartuf-banner-preset-${$('targetBanner').value}`;
 }
 
-const N8N_WEBHOOK_URL = 'https://n8n.srv1004354.hstgr.cloud/webhook-test/publish-banner-dispatch';
+const N8N_WEBHOOK_URLS = [
+  'https://n8n.srv1004354.hstgr.cloud/webhook/publish-banner-dispatch',
+  'https://n8n.srv1004354.hstgr.cloud/webhook-test/publish-banner-dispatch'
+];
 
 function mapTargetForWorkflow(target) {
   if (target === 'hlavni-banner.html') return 'hlavni';
@@ -131,30 +134,42 @@ $('saveBtn').addEventListener('click', async () => {
     productData: localProductData || ''
   };
 
-  try {
-    const sent = navigator.sendBeacon(
-      N8N_WEBHOOK_URL,
-      new Blob([JSON.stringify(payload)], { type: 'text/plain;charset=UTF-8' })
-    );
+  let delivered = false;
 
-    if (sent) {
-      alert('Export odeslán do n8n workflow.');
-    } else {
-      throw new Error('sendBeacon returned false');
-    }
-  } catch (e) {
+  for (const url of N8N_WEBHOOK_URLS) {
     try {
-      const res = await fetch(N8N_WEBHOOK_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      alert('Export do GitHubu spuštěn přes n8n workflow.');
-    } catch {
-      alert('Lokálně uloženo, ale export request byl blokovaný (nejspíš CORS/webhook).');
+      const sent = navigator.sendBeacon(
+        url,
+        new Blob([JSON.stringify(payload)], { type: 'text/plain;charset=UTF-8' })
+      );
+      if (sent) {
+        delivered = true;
+        break;
+      }
+    } catch {}
+  }
+
+  if (!delivered) {
+    for (const url of N8N_WEBHOOK_URLS) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          delivered = true;
+          break;
+        }
+      } catch {}
     }
+  }
+
+  if (delivered) {
+    alert('Export do GitHubu odeslán do n8n workflow.');
+  } else {
+    alert('Lokálně uloženo, ale n8n endpoint není dostupný.');
   }
 
   apply();
