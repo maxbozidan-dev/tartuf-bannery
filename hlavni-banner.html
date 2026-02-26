@@ -40,8 +40,9 @@
 
         .product-wrap {
             position: absolute;
-            right: 5%;
-            bottom: 8%;
+            right: 9%;
+            top: 50%;
+            transform: translateY(-50%);
             width: clamp(260px, 28vw, 520px);
             z-index: 2;
             transform-origin: 62% 60%;
@@ -59,10 +60,10 @@
         }
 
         @keyframes product-sway {
-            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-            25% { transform: translateY(-8px) scale(1.03) rotate(-2.2deg); }
-            50% { transform: translateY(-2px) scale(1.06) rotate(2deg); }
-            75% { transform: translateY(-10px) scale(1.025) rotate(-1.4deg); }
+            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+            25% { transform: translateY(calc(-50% - 8px)) scale(1.03) rotate(-2.2deg); }
+            50% { transform: translateY(calc(-50% - 2px)) scale(1.06) rotate(2deg); }
+            75% { transform: translateY(calc(-50% - 10px)) scale(1.025) rotate(-1.4deg); }
         }
 
         /* Floating Truffles */
@@ -81,30 +82,26 @@
         .truffle-1 {
             width: clamp(100px, 15vw, 250px);
             height: clamp(100px, 15vw, 250px);
-            top: 5%;
-            left: 35%;
-            /* Repositioned from right to center-left top */
+            top: 8%;
+            right: 18%;
             animation: pulse-float 8s infinite ease-in-out;
             filter: blur(1px) brightness(1.1);
-            /* Reduced blur, higher brightness */
         }
 
         .truffle-2 {
             width: clamp(80px, 10vw, 180px);
             height: clamp(80px, 10vw, 180px);
-            bottom: 10%;
-            left: 45%;
-            /* Repositioned from right to center-left bottom */
+            bottom: 12%;
+            right: 6%;
             animation: pulse-float 10s infinite ease-in-out reverse;
             filter: blur(0px) brightness(1.2);
-            /* No blur, higher brightness */
         }
 
         .truffle-3 {
             width: clamp(60px, 8vw, 120px);
             height: clamp(60px, 8vw, 120px);
-            bottom: 5%;
-            left: 5%;
+            top: 58%;
+            right: 28%;
             animation: pulse-float 7s infinite ease-in-out 1s;
             filter: blur(1px) brightness(1);
         }
@@ -220,12 +217,21 @@
                 margin: 20px 0 30px 0;
             }
 
+            .product-wrap {
+                right: 4%;
+                width: clamp(220px, 40vw, 360px);
+            }
+
             .truffle-1 {
-                left: 50%;
+                right: 8%;
             }
 
             .truffle-2 {
-                left: 60%;
+                right: -2%;
+            }
+
+            .truffle-3 {
+                right: 20%;
             }
         }
 
