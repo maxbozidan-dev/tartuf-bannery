@@ -26,24 +26,43 @@
 
         .background-image {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/html5-banner-tartuf.jpg');
-            background-size: cover;
-            background-position: right center;
+            inset: 0;
+            background: #111111;
             z-index: 0;
         }
 
         .bg-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.26) 50%, rgba(0, 0, 0, 0.04) 100%);
             z-index: 1;
+        }
+
+        .product-wrap {
+            position: absolute;
+            right: 5%;
+            bottom: 8%;
+            width: clamp(260px, 28vw, 520px);
+            z-index: 2;
+            transform-origin: 62% 60%;
+            animation: product-sway 9s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .product-wrap img {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 26px 34px rgba(0,0,0,.45));
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        @keyframes product-sway {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            25% { transform: translateY(-8px) scale(1.03) rotate(-2.2deg); }
+            50% { transform: translateY(-2px) scale(1.06) rotate(2deg); }
+            75% { transform: translateY(-10px) scale(1.025) rotate(-1.4deg); }
         }
 
         /* Floating Truffles */
@@ -104,7 +123,7 @@
 
         .content {
             position: relative;
-            z-index: 3;
+            z-index: 4;
             /* Above truffles */
             width: 100%;
             height: 100%;
@@ -247,6 +266,10 @@
     <div class="background-image"></div>
     <div class="bg-overlay"></div>
 
+    <div class="product-wrap" id="productWrap">
+        <img id="productImage" src="images/darkovebaleni.png" alt="Produkt" />
+    </div>
+
     <!-- Decorative Truffles -->
     <div class="truffle truffle-1"></div>
     <div class="truffle truffle-2"></div>
@@ -266,12 +289,14 @@
             const subtitle = params.get('subtitle');
             const ctaText = params.get('ctaText');
             const ctaHref = params.get('ctaHref');
-            const bg = params.get('bg');
+            const bgColor = params.get('bgColor');
+            const product = params.get('product');
 
             const titleEl = document.getElementById('bannerTitle');
             const subEl = document.getElementById('bannerSubtitle');
             const ctaEl = document.getElementById('bannerCta');
             const bgEl = document.querySelector('.background-image');
+            const productEl = document.getElementById('productImage');
 
             if (title && titleEl) {
                 const safe = title
@@ -283,7 +308,8 @@
             if (subtitle && subEl) subEl.textContent = subtitle;
             if (ctaText && ctaEl) ctaEl.childNodes[0].nodeValue = `${ctaText} `;
             if (ctaHref && ctaEl) ctaEl.href = ctaHref;
-            if (bg && bgEl) bgEl.style.backgroundImage = `url('${bg}')`;
+            if (bgColor && bgEl) bgEl.style.background = bgColor;
+            if (product && productEl) productEl.src = product;
         })();
     </script>
 </body>

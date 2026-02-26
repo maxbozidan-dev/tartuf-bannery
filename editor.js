@@ -1,21 +1,23 @@
 const $ = (id) => document.getElementById(id);
 const preview = $('preview');
-let localBgData = '';
+let localProductData = '';
 
 function currentParams() {
   const title = $('title').value.trim();
   const subtitle = $('subtitle').value.trim();
   const ctaText = $('ctaText').value.trim();
   const ctaHref = $('ctaHref').value.trim();
-  const bgUrl = $('bgUrl').value.trim();
+  const bgColor = $('bgColor').value;
+  const productUrl = $('productUrl').value.trim();
 
   const p = new URLSearchParams();
   if (title) p.set('title', title);
   if (subtitle) p.set('subtitle', subtitle);
   if (ctaText) p.set('ctaText', ctaText);
   if (ctaHref) p.set('ctaHref', ctaHref);
-  if (bgUrl) p.set('bg', bgUrl);
-  if (!bgUrl && localBgData) p.set('bg', localBgData);
+  if (bgColor) p.set('bgColor', bgColor);
+  if (productUrl) p.set('product', productUrl);
+  if (!productUrl && localProductData) p.set('product', localProductData);
   return p;
 }
 
@@ -48,9 +50,13 @@ function apply() {
 }
 
 function updateTargetHint() {
-  const select = $('targetBanner');
-  const text = select.options[select.selectedIndex]?.text || 'Banner';
-  $('targetHint').textContent = `Aktuálně upravuješ: ${text}`;
+  const target = $('targetBanner').value;
+  const map = {
+    'hlavni-banner.html': 'Hlavní banner',
+    'doplnkovy-banner-1.html': 'Doplňkový banner č. 1',
+    'doplnkovy-banner-2.html': 'Doplňkový banner č. 2'
+  };
+  $('targetHint').textContent = `Aktuálně upravuješ: ${map[target] || 'Banner'}`;
 }
 
 function setActiveTab(target) {
@@ -89,7 +95,8 @@ $('saveBtn').addEventListener('click', async () => {
     subtitle: $('subtitle').value,
     ctaText: $('ctaText').value,
     ctaHref: $('ctaHref').value,
-    bgUrl: $('bgUrl').value
+    bgColor: $('bgColor').value,
+    productUrl: $('productUrl').value
   };
   localStorage.setItem(presetKey(), JSON.stringify(preset));
 
@@ -107,7 +114,9 @@ $('saveBtn').addEventListener('click', async () => {
     subtitle: preset.subtitle,
     ctaText: preset.ctaText,
     ctaHref: preset.ctaHref,
-    bgUrl: preset.bgUrl
+    bgColor: preset.bgColor,
+    productUrl: preset.productUrl,
+    productData: !preset.productUrl ? localProductData : ''
   };
 
   try {
@@ -140,12 +149,12 @@ $('copyEmbedBtn').addEventListener('click', async () => {
   alert('Iframe kód zkopírován.');
 });
 
-$('bgFile').addEventListener('change', (e) => {
+$('productFile').addEventListener('change', (e) => {
   const file = e.target.files?.[0];
   if (!file) return;
   const r = new FileReader();
   r.onload = () => {
-    localBgData = String(r.result || '');
+    localProductData = String(r.result || '');
     apply();
   };
   r.readAsDataURL(file);
@@ -160,7 +169,8 @@ function loadPreset() {
     if (p.subtitle) $('subtitle').value = p.subtitle;
     if (p.ctaText) $('ctaText').value = p.ctaText;
     if (p.ctaHref) $('ctaHref').value = p.ctaHref;
-    if (p.bgUrl) $('bgUrl').value = p.bgUrl;
+    if (p.bgColor) $('bgColor').value = p.bgColor;
+    if (p.productUrl) $('productUrl').value = p.productUrl;
   } catch {}
 }
 

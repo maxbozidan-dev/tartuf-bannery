@@ -66,12 +66,16 @@
         <input id="ctaHref" value="https://www.tartuf.cz/lanyzove-produkty/" />
       </div>
       <div class="field">
-        <label>URL obrázku pozadí (doporučeno pro eShop)</label>
-        <input id="bgUrl" placeholder="https://.../obrazek.jpg" />
+        <label>Barva pozadí banneru</label>
+        <input id="bgColor" type="color" value="#111111" />
       </div>
       <div class="field">
-        <label>Lokální obrázek (jen pro rychlý náhled)</label>
-        <input id="bgFile" type="file" accept="image/*" />
+        <label>URL produktového PNG (vpravo)</label>
+        <input id="productUrl" placeholder="https://.../produkt.png" />
+      </div>
+      <div class="field">
+        <label>Lokální PNG produktu (pro rychlý náhled)</label>
+        <input id="productFile" type="file" accept="image/png,image/webp,image/jpeg" />
       </div>
 
       <div class="actions">
@@ -80,7 +84,7 @@
         <button id="copyBtn" class="secondary">Kopírovat URL</button>
       </div>
       <p class="small" id="targetHint">Aktuálně upravuješ: Hlavní banner (karusel)</p>
-      <p class="small">Tip: Pro živý eShop link používej URL obrázku. Lokální soubor se použije jen v prohlížeči.</p>
+      <p class="small">Tip: Nastav barvu pozadí + PNG produktu. Produkt se animuje (zoom + jemná rotace).</p>
     </aside>
 
     <section class="preview">
