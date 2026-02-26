@@ -78,7 +78,7 @@ function presetKey() {
   return `tartuf-banner-preset-${$('targetBanner').value}`;
 }
 
-const N8N_WEBHOOK_URL = 'https://n8n.srv1004354.hstgr.cloud/webhook-test/tartuf-publish';
+const N8N_WEBHOOK_URL = 'https://n8n.srv1004354.hstgr.cloud/webhook-test/publish-banner-dispatch';
 
 function mapTargetForWorkflow(target) {
   if (target === 'hlavni-banner.html') return 'hlavni';
